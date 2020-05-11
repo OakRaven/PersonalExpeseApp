@@ -23,6 +23,9 @@ class MyApp extends StatelessWidget {
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.bold,
                   fontSize: 16),
+              button: TextStyle(
+                color: Colors.white,
+              ),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -89,13 +92,15 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addTransaction({String title, double amount}) {
+  void _addTransaction({String title, double amount, DateTime date}) {
     setState(() {
       _userTranasctions.add(Transaction(
           id: DateTime.now().toString(),
           title: title,
           amount: amount,
-          date: DateTime.now()));
+          date: date));
+
+      _userTranasctions.sort((b, a) => a.date.compareTo(b.date));
     });
   }
 
@@ -105,6 +110,10 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (_) {
           return NewTransaction(_addTransaction);
         });
+  }
+
+  _MyHomePageState() {
+    _userTranasctions.sort((b, a) => a.date.compareTo(b.date));
   }
 
   @override
@@ -125,7 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             Chart(recentTransactions),
-            TransactionList(_userTranasctions.reversed.toList()),
+            TransactionList(_userTranasctions),
           ],
         ),
       ),

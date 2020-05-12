@@ -112,6 +112,12 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _deleteTransaction(id) {
+    setState(() {
+      _userTranasctions.removeWhere((item) => item.id == id);
+    });
+  }
+
   _MyHomePageState() {
     _userTranasctions.sort((b, a) => a.date.compareTo(b.date));
   }
@@ -134,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             Chart(recentTransactions),
-            TransactionList(_userTranasctions),
+            TransactionList(_userTranasctions, _deleteTransaction),
           ],
         ),
       ),

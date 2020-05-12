@@ -5,8 +5,48 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function deleteTransaction;
 
-  TransactionList(this.transactions);
+  TransactionList(this.transactions, this.deleteTransaction);
+
+  void _startDeleteTransaction(context, transaction) {
+    showDialog(
+        context: context,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: Text('Delete Transaction?'),
+            content: Text(
+                'You are sure you want to delete the transaction for ${transaction.title}?'),
+            actions: <Widget>[
+              Expanded(
+                child: FlatButton(
+                  child: Text(
+                    'No',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+              FlatButton(
+                child: Text(
+                  'Yes',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                onPressed: () {
+                  deleteTransaction(transaction.id);
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +100,13 @@ class TransactionList extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.grey[700],
                       ),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () {
+                        _startDeleteTransaction(context, tx);
+                      },
                     ),
                   ),
                 );

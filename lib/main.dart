@@ -51,42 +51,42 @@ class _MyHomePageState extends State<MyHomePage> {
         id: '1',
         title: 'New headset',
         amount: 13.99,
-        date: DateTime.parse('2020-04-25')),
+        date: DateTime.parse('2020-05-10')),
     Transaction(
         id: '2',
         title: 'Google Play',
         amount: 14.00,
-        date: DateTime.parse('2020-05-01')),
+        date: DateTime.parse('2020-05-10')),
     Transaction(
         id: '3',
         title: 'Office 365',
         amount: 16.99,
-        date: DateTime.parse('2020-05-01')),
+        date: DateTime.parse('2020-05-10')),
     Transaction(
         id: '4',
         title: 'Netflix',
         amount: 12.99,
-        date: DateTime.parse('2020-05-02')),
+        date: DateTime.parse('2020-05-12')),
     Transaction(
         id: '5',
         title: 'Amazon Prime',
         amount: 11.00,
-        date: DateTime.parse('2020-05-04')),
+        date: DateTime.parse('2020-05-12')),
     Transaction(
         id: '5',
         title: 'Amazon Prime',
-        amount: 25.00,
-        date: DateTime.parse('2020-05-06')),
+        amount: 30.00,
+        date: DateTime.parse('2020-05-12')),
     Transaction(
         id: '5',
         title: 'Amazon Prime',
         amount: 11.00,
-        date: DateTime.parse('2020-05-08')),
+        date: DateTime.parse('2020-05-14')),
     Transaction(
         id: '6',
         title: 'Shudder',
         amount: 33.99,
-        date: DateTime.parse('2020-05-08'))
+        date: DateTime.parse('2020-05-14'))
   ];
 
   bool _showChart = false;

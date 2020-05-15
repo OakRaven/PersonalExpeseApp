@@ -50,6 +50,8 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
     return Container(
       child: transactions.isEmpty
           ? LayoutBuilder(builder: (ctx, constraints) {
@@ -102,7 +104,7 @@ class TransactionList extends StatelessWidget {
                         color: Colors.grey[700],
                       ),
                     ),
-                    trailing: MediaQuery.of(context).size.width > 460
+                    trailing: mediaQuery.size.width > 460
                         ? FlatButton.icon(
                             textColor: Theme.of(context).errorColor,
                             label: Text('Delete'),

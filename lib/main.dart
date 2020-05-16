@@ -175,25 +175,41 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
   }
 
+  Widget _buildAppBar() {
+    return Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: const Text('Personal Expense'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                GestureDetector(
+                  child: Icon(CupertinoIcons.add),
+                  onTap: () {
+                    _startAddNewTransaction(context);
+                  },
+                )
+              ],
+            ),
+          )
+        : AppBar(
+            title: Text(
+              'Personal Expenses',
+            ),
+            actions: <Widget>[
+              if (Platform.isIOS)
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () => _startAddNewTransaction(context),
+                )
+            ],
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-
-    final appBar = AppBar(
-      title: Text(
-        'Personal Expenses',
-      ),
-      actions: <Widget>[
-        if (Platform.isIOS)
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
-          )
-      ],
-    );
-
+    final PreferredSizeWidget appBar = _buildAppBar();
     final txListWidget = Container(
         height: (mediaQuery.size.height -
                 appBar.preferredSize.height -
@@ -201,31 +217,39 @@ class _MyHomePageState extends State<MyHomePage> {
             0.7,
         child: TransactionList(_userTranasctions, _deleteTransaction));
 
-    return Scaffold(
-      appBar: appBar,
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            if (isLandscape)
-              ..._buildLandscapeContent(
-                appBar: appBar,
-                mediaQuery: mediaQuery,
-                txListWidget: txListWidget,
-              ),
-            if (!isLandscape)
-              ..._buildPortraitContent(
-                appBar: appBar,
-                mediaQuery: mediaQuery,
-                txListWidget: txListWidget,
-              ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _startAddNewTransaction(context),
+    var pageBody = SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          if (isLandscape)
+            ..._buildLandscapeContent(
+              appBar: appBar,
+              mediaQuery: mediaQuery,
+              txListWidget: txListWidget,
+            ),
+          if (!isLandscape)
+            ..._buildPortraitContent(
+              appBar: appBar,
+              mediaQuery: mediaQuery,
+              txListWidget: txListWidget,
+            ),
+        ],
       ),
     );
+
+    return Platform.isIOS
+        ? CupertinoPageScaffold(
+            child: pageBody,
+            navigationBar: appBar,
+          )
+        : Scaffold(
+            appBar: appBar,
+            body: pageBody,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () => _startAddNewTransaction(context),
+            ),
+          );
   }
 }

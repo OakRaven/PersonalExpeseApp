@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
+import './transaction_list_item.dart';
 import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -79,49 +79,9 @@ class TransactionList extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 var tx = transactions[index];
 
-                return Card(
-                  elevation: 5,
-                  margin: EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 5,
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30,
-                      child: Padding(
-                        padding: EdgeInsets.all(6),
-                        child: FittedBox(
-                            child: Text('\$${tx.amount.toStringAsFixed(2)}')),
-                      ),
-                    ),
-                    title: Text(
-                      tx.title,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    subtitle: Text(
-                      DateFormat.yMMMMd().format(tx.date),
-                      style: TextStyle(
-                        color: Colors.grey[700],
-                      ),
-                    ),
-                    trailing: mediaQuery.size.width > 460
-                        ? FlatButton.icon(
-                            textColor: Theme.of(context).errorColor,
-                            label: Text('Delete'),
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              _startDeleteTransaction(context, tx);
-                            },
-                          )
-                        : IconButton(
-                            icon: Icon(Icons.delete),
-                            color: Theme.of(context).errorColor,
-                            onPressed: () {
-                              _startDeleteTransaction(context, tx);
-                            },
-                          ),
-                  ),
-                );
+                return TransactionItem(
+                    transaction: tx,
+                    deleteTransaction: _startDeleteTransaction);
               },
             ),
     );

@@ -50,8 +50,6 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-
     return Container(
       child: transactions.isEmpty
           ? LayoutBuilder(builder: (ctx, constraints) {
@@ -74,15 +72,14 @@ class TransactionList extends StatelessWidget {
                 ],
               );
             })
-          : ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: (ctx, index) {
-                var tx = transactions[index];
-
-                return TransactionItem(
-                    transaction: tx,
-                    deleteTransaction: _startDeleteTransaction);
-              },
+          : ListView(
+              children: transactions
+                  .map((tx) => TransactionItem(
+                        key: ValueKey(tx.id),
+                        transaction: tx,
+                        deleteTransaction: _startDeleteTransaction,
+                      ))
+                  .toList(),
             ),
     );
   }
